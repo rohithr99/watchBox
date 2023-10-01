@@ -22,9 +22,9 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use("/",router);
-app.get('/',(req, res) => {
-    res.send("server is up and running");
-});
+// app.get('/',(req, res) => {
+//     res.send("server is up and running");
+// });
 
 
 

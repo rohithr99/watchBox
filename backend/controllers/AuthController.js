@@ -46,7 +46,7 @@ login = async (req, res ,next) => {
         res.status(202).json({ message: "User logged in successfully", success: true });
         next();
     }catch(err){
-        res.status(404).json({message: "failed to login", success: false })
+        res.status(404).json({message: "failed to login", success: false });
     }
 }
 
