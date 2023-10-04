@@ -50,6 +50,7 @@ getNowPlaying = async (req, res) => {
     }
 }
 
+//single view
 viewMovieDetails = async (req, res) => {
     try{
         const tmdbId = req.params.tmdbId;
@@ -109,7 +110,44 @@ getWatchlist = async (req, res) => {
         res.status(400).json({message: "error fetching watchlist", success: false});
     }
 }
- 
+
+//search tmdb database
+searchMovie = async (req, res) => {
+    const { query } = req.query;
+    try{
+        const response = await axios.get(`${apiUrl}search/movie?api_key=${apiKey}&query=${query}`);
+        res.status(200).json({message: "result fetched successfully",movies: response.data});
+    }catch(err){
+        console.log(err.message);
+        res.status(400).json({message: "Movie not found"});
+    }
+} 
+
+//toggling a movie to watched
+ alreadyWatched = async (req, res) => {
+    const { id } = req.params;
+    try{
+        const movie = await Watchlist.findByIdAndUpdate( { _id : id }, { watched: true }, { new :true });
+
+        if(!movie){
+           return res.status(404).json({message: "Movie not found"});
+        }
+        res.status(200).json({message: "Watched status updated successfully",movie});
+    }catch(err){
+        res.status(500).json({message:"Server error"})
+    }
+}
+
+//getting watched movies
+watchedMovies = async (req, res) => {
+    try{
+        const watched = await Watchlist.find({ watched: true });
+        res.status(200).json({message: "watched movies fetched successfully", watched});
+    }catch(err){
+        res.status(400).json({message: err.message});
+    }
+}
+
 module.exports = {
-    getPopular, getTopRated, getUpcoming, getNowPlaying, viewMovieDetails, addToWatchlist, getWatchlist
+    getPopular, getTopRated, getUpcoming, getNowPlaying, viewMovieDetails, addToWatchlist, getWatchlist, searchMovie, alreadyWatched, watchedMovies
 };

@@ -7,6 +7,7 @@ const Home = () => {
 
   const [activeButton, setActiveButton] = useState("popular");
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchData = async (endpoint) => {
     try {
@@ -18,6 +19,16 @@ const Home = () => {
   }
 
   console.log(data);
+
+  const handleSearch = async () => {
+    try{
+      const response = await axios.get(`http://localhost:8000/api/movies/search?query=${searchQuery}`);
+      // console.log(response.data.movies);
+      setData(response.data.movies.results);
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     fetchData('popular');
@@ -39,6 +50,10 @@ const Home = () => {
 
   return (
     <div>
+      <div className='flex justify-center'>
+        <input type="text" placeholder="search..." className='bg-black text-white w-1/2 rounded-md' onChange={(e) => setSearchQuery(e.target.value)} />
+        <button className='p-2 ms-2 bg-black text-white rounded-md' onClick={handleSearch}>Search</button>
+      </div>
       <div className='flex justify-center main'>
         <button className={`bg-red-400 m-1 ${activeButton === 'popular' ? 'bg-rose-500' : ''}`} onClick={() => handleButtonClick('popular')}>Popular</button>
         <button className={`bg-red-400 m-1 ${activeButton === 'top_rated' ? 'bg-rose-500' : ''}`} onClick={() => handleButtonClick('top_rated')}>Top Rated</button>

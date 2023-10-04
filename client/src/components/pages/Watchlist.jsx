@@ -15,6 +15,16 @@ const Watchlist = () => {
     }
   }
 
+  const markAsWatched = async (id) => {
+    try{
+      const response = await axios.put(`http://localhost:8000/api/watchlist/${id}`);
+      // console.log(response);
+      setData((prevData) => prevData.map((item) => (item._id === id ? {...item, watched: true} : item)))
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     fetchWatchlist();
   }, []);
@@ -28,7 +38,7 @@ const Watchlist = () => {
             <h1>{i.title}</h1>
             <p className="title_movie"></p>
             <p></p>
-            <p><button>Add to Watched</button></p>
+            <p><button onClick={() => markAsWatched(i._id)}>Mark as {i.watched ? 'unwatched' : "watched" }</button></p>
           </div>
         ))
       }

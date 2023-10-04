@@ -2,7 +2,7 @@
 const express = require('express');
 const { signUp, login } = require('../controllers/AuthController'); 
 const { userVerification } = require('../middlewares/AuthMiddleware');
-const { getPopular, getTopRated, getUpcoming, getNowPlaying, viewMovieDetails, addToWatchlist, getWatchlist } = require('../controllers/tmdb');
+const { getPopular, getTopRated, getUpcoming, getNowPlaying, viewMovieDetails, addToWatchlist, getWatchlist, searchMovie, alreadyWatched, watchedMovies } = require('../controllers/tmdb');
 //initialize router
 const router = express.Router();
 
@@ -36,6 +36,16 @@ router.get('/api/addToWatchlist/:tmdbId',addToWatchlist);
 
 //get watchlist
 router.get("/api/viewWatchlist",getWatchlist);
+
+//search route
+router.get(`/api/movies/search`, searchMovie);
+
+//add to watched 
+router.put(`/api/watchlist/:id`, alreadyWatched);
+
+//get watched movies
+router.get(`/api/watched`,watchedMovies)
+
 //delete watchlist 
 
 //delete watched list
