@@ -53,11 +53,11 @@ const Home = () => {
 
   return (
     <div>
-      <div className='flex justify-center'>
-        <input type="text" placeholder="search..." className='bg-black text-white w-1/2 rounded-md' onChange={(e) => setSearchQuery(e.target.value)} />
-        <button className='p-2 ms-2 bg-black text-white rounded-md' onClick={handleSearch}>Search</button>
+      <div className='flex justify-center p-5'>
+        <input type="text" placeholder="  search movies..." className='bg-black text-white w-1/2 rounded-full' onChange={(e) => setSearchQuery(e.target.value)} />
+        <button className='p-2 ms-2 bg-black text-white rounded-lg' onClick={handleSearch}>Search</button>
       </div>
-      <div className='flex justify-center main'>
+      <div className='flex justify-center main pb-6'>
         <button className={`bg-red-400 m-1 ${activeButton === 'popular' ? 'bg-rose-500' : ''}`} onClick={() => handleButtonClick('popular')}>Popular</button>
         <button className={`bg-red-400 m-1 ${activeButton === 'top_rated' ? 'bg-rose-500' : ''}`} onClick={() => handleButtonClick('top_rated')}>Top Rated</button>
         <button className={`bg-red-400 m-1 ${activeButton === 'upcoming' ? 'bg-rose-500' : ''}`} onClick={() => handleButtonClick('upcoming')}>Upcoming</button>

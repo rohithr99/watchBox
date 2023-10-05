@@ -30,17 +30,17 @@ const Watched = () => {
   }, []);
 
   return (
-    <div>
+    <div className='grid grid-cols-4 pt-10 container mx-auto gap-4'>
       {
         watchedMovies?.map((item) => (
-          <div className='max-w-sm rounded overflow-hidden shadow-lg text-center' key={item._id}>
+          <div className='max-w-sm rounded flex flex-col overflow-hidden shadow-lg text-center' key={item._id}>
             <img src={`https://image.tmdb.org/t/p/w500/${item.image}`} alt="image" className='w-full' />
-            <div className='px-6 py-4'>
+            <div className='px-6 py-4 grow'>
               <h2 className='font-bold text-xl mb-2'>{item.title}</h2>
               <p className='text-gray-700 text-base'></p>
             </div>
-            <div className='px-6 pt-4 pb-2'>
-              <button type="button" className='bg-red-400 p-2 rounded-lg' onClick={() => handleRemove(item._id)}>remove</button>
+            <div className='px-6 pt-4 pb-5'>
+              <button type="button" className='bg-red-400 p-2 rounded-lg hover:bg-red-300' onClick={() => handleRemove(item._id)}>Mark as unwatched</button>
             </div>
           </div>
         ))
