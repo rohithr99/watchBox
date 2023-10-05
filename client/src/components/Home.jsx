@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Cards from './Cards';
 import './Home.css';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-
+  const navigate = useNavigate();
+  const [cookies, removeCookie] = useState([]);
+  const [username, setUsername] = useState("");
   const [activeButton, setActiveButton] = useState("popular");
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -44,7 +47,7 @@ const Home = () => {
       const response = await axios.get(`http://localhost:8000/api/addToWatchlist/${tmdbId}`);
       console.log(response);
     }catch(err){
-      console.log(err);
+      console.log(err.message);
     }
   }
 

@@ -2,7 +2,8 @@
 const express = require('express');
 const { signUp, login } = require('../controllers/AuthController'); 
 const { userVerification } = require('../middlewares/AuthMiddleware');
-const { getPopular, getTopRated, getUpcoming, getNowPlaying, viewMovieDetails, addToWatchlist, getWatchlist, searchMovie, alreadyWatched, watchedMovies } = require('../controllers/tmdb');
+const { getPopular, getTopRated, getUpcoming, getNowPlaying, viewMovieDetails, addToWatchlist, getWatchlist, searchMovie, alreadyWatched, watchedMovies, removeWatched } = require('../controllers/tmdb');
+const { deleteWatchlistMovie } = require('../controllers/watchlist');
 //initialize router
 const router = express.Router();
 
@@ -47,8 +48,10 @@ router.put(`/api/watchlist/:id`, alreadyWatched);
 router.get(`/api/watched`,watchedMovies)
 
 //delete watchlist 
+router.delete(`/api/deleteWatchlist/:id`,deleteWatchlistMovie);
 
-//delete watched list
+//remove from watched list
+router.put(`/api/removeWatched/:id`,removeWatched);
 
 //user can give rating...(optional) // will do according to time available
 

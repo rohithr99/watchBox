@@ -15,6 +15,16 @@ const Watched = () => {
     }
   }
 
+  const handleRemove = async (id) => {
+    try{
+      const response = await axios.put(`http://localhost:8000/api/removeWatched/${id}`);
+      // console.log(response);
+      fetchWatchedMovies();
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     fetchWatchedMovies();
   }, []);
@@ -22,7 +32,7 @@ const Watched = () => {
   return (
     <div>
       {
-        watchedMovies.map((item) => (
+        watchedMovies?.map((item) => (
           <div className='max-w-sm rounded overflow-hidden shadow-lg text-center' key={item._id}>
             <img src={`https://image.tmdb.org/t/p/w500/${item.image}`} alt="image" className='w-full' />
             <div className='px-6 py-4'>
@@ -30,7 +40,7 @@ const Watched = () => {
               <p className='text-gray-700 text-base'></p>
             </div>
             <div className='px-6 pt-4 pb-2'>
-              <button type="button" className='bg-red-400 p-2 rounded-lg'>remove</button>
+              <button type="button" className='bg-red-400 p-2 rounded-lg' onClick={() => handleRemove(item._id)}>remove</button>
             </div>
           </div>
         ))

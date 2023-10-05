@@ -8,7 +8,7 @@ const Watchlist = () => {
   const fetchWatchlist = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/api/viewWatchlist`);
-      console.log(response.data.watchlist);  
+      // console.log(response.data.watchlist);
       setData(response.data.watchlist);
     } catch (err) {
       console.log(err);
@@ -16,10 +16,21 @@ const Watchlist = () => {
   }
 
   const markAsWatched = async (id) => {
-    try{
+    try {
       const response = await axios.put(`http://localhost:8000/api/watchlist/${id}`);
       // console.log(response);
-      setData((prevData) => prevData.map((item) => (item._id === id ? {...item, watched: true} : item)))
+      setData((prevData) => prevData.map((item) => (item._id === id ? { ...item, watched: true } : item)));
+      fetchWatchlist();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleDeleteMovie = async ( id ) => {
+    try{
+      const response = await axios.delete(`http://localhost:8000/api/deleteWatchlist/${id}`);
+      // console.log(response);
+      fetchWatchlist();
     }catch(err){
       console.log(err);
     }
@@ -30,15 +41,22 @@ const Watchlist = () => {
   }, []);
 
   return (
-    <div>
+    <div className='grid grid-cols-4 pt-10 container mx-auto gap-4'>
       {
         data?.map((i) => (
-          <div className="card_small" key={i._id}>
+          <div className="max-w-sm rounded flex flex-col overflow-hidden shadow-lg text-center" key={i._id}>
             <img src={`https://image.tmdb.org/t/p/w500/${i.image}`} alt="image" style={{ width: "100%" }} />
-            <h1>{i.title}</h1>
-            <p className="title_movie"></p>
-            <p></p>
-            <p><button onClick={() => markAsWatched(i._id)}>Mark as {i.watched ? 'unwatched' : "watched" }</button></p>
+            <div className='px-6 py-4 grow'>
+              <h1 className='font-bold text-xl mb-2'>{i.title}</h1>
+              <p className="text-gray-700 text-base"></p>
+              <p></p>
+            </div>
+            <div className='flex inline-block justify-between'>{
+              i.watched ? <h3 className='bg-green-400 p-2 w-1/2 rounded'>Watched</h3> :
+                <button className="w-1/2 bg-black text-white p-2 rounded hover:bg-gray-700" onClick={() => markAsWatched(i._id)}>Mark as watched</button>
+            }
+            <button className='bg-red-500 w-1/2 rounded hover:bg-red-400' onClick={() => handleDeleteMovie(i._id)}>Delete</button>
+            </div>
           </div>
         ))
       }

@@ -71,7 +71,7 @@ addToWatchlist = async (req, res) => {
         const existingMovie = await Watchlist.findOne({ tmdbId });
 
         if(existingMovie){
-            res.status(404).json({message: "Movie is already in watchlist", success: false});
+            return res.status(404).json({message: "Movie is already in watchlist", success: false});
         }
 
         //fetch movie data from TMDB API
@@ -148,6 +148,23 @@ watchedMovies = async (req, res) => {
     }
 }
 
+//remove from watched list
+removeWatched = async (req, res) => {
+    const { id } = req.params;
+    try{
+        const movie = await Watchlist.findByIdAndUpdate({ _id: id }, { watched : false }, { new: true });
+        
+        if(!movie){
+            return res.status(404).json({message: "Movie not found"});
+        }
+        res.status(200).json({message: "Movie removed successfully"});
+        
+    }catch(err){
+        res.status(404).json({message: err.message});
+    }
+}
+
 module.exports = {
-    getPopular, getTopRated, getUpcoming, getNowPlaying, viewMovieDetails, addToWatchlist, getWatchlist, searchMovie, alreadyWatched, watchedMovies
+    getPopular, getTopRated, getUpcoming, getNowPlaying, viewMovieDetails, addToWatchlist,
+     getWatchlist, searchMovie, alreadyWatched, watchedMovies, removeWatched
 };
